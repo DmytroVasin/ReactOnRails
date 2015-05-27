@@ -52,3 +52,4 @@ end
 
 gem 'pg'
 gem 'react-rails', '~> 1.0'
+gem 'bootstrap-sass', '~> 3.3.4'
