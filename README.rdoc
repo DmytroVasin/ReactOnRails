@@ -1,0 +1,5 @@
+== React On Rails
+
+First test simple app by applying React on Rails.
+
+rake db:drop && rake db:create && rake db:migrate && rake db:seed
