@@ -1,6 +1,4 @@
-// Should we write "this.Record" ?
-
-Record = React.createClass({
+var Record = React.createClass({
   render: function() {
     return (
       <tr>

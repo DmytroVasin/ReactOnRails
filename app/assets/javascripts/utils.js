@@ -1,5 +1,5 @@
-// WTF?! using window?
-this.amountFormat = function(amount){
+// require utils...
+amountFormat = function(amount){
   return (
     '$ ' + Number(amount).toLocaleString()
   )

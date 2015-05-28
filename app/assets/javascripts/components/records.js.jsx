@@ -1,6 +1,5 @@
-// Should we write "this.Records" ?
-
-Records = React.createClass({
+// Add "APP"
+var Records = React.createClass({
   getInitialState: function() {
     // this - Constructor...
     // props:
@@ -14,8 +13,7 @@ Records = React.createClass({
   },
 
   getDefaultProps: function() {
-    // WTF - does not work!
-    // Cannot read property 'records' of null
+    // If in "react_component" we does not insert any datas - so "this.prop.data" will get it form this method.
 
     // [
     //  {"id":1,"title":"Record 1","date":"2015-05-27","amount":500.0,"created_at":"2015-05-27T17:36:13.002Z","updated_at":"2015-05-27T17:36:13.002Z"},
@@ -23,8 +21,14 @@ Records = React.createClass({
     // ]
 
     return ({
-      records: []
+      data: []
     })
+  },
+
+  addRecord: function(record) {
+    records = this.state.records.slice()
+    records.push(record)
+    this.setState({ records: records})
   },
 
   render: function() {
@@ -40,6 +44,9 @@ Records = React.createClass({
       // when React executes a re-render, it will be performed in an optimal way
       <div className='records'>
         <h2 className='title'>Records</h2>
+          <RecordForm handleNewRecord={this.addRecord} />
+        <hr/>
+
         <table className='table table-bordered'>
           <thead>
             <tr>
@@ -52,10 +59,7 @@ Records = React.createClass({
             {
               records.map(function (record) {
                 return (
-                  React.createElement(Record, {
-                    key: record.id,
-                    record: record
-                  })
+                  <Record key={record.id} record={record} />
                 )
               })
             }
