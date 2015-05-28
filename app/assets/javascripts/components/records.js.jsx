@@ -31,7 +31,41 @@ var Records = React.createClass({
     this.setState({ records: records})
   },
 
+  // Calculate sum of positive amounts.
+  credits: function(){
+    var credits;
+    credits = this.state.records.filter(function(val) {
+      return val.amount >= 0;
+    });
+
+    return (
+      credits.reduce((function(prev, curr) {
+        return prev + parseFloat(curr.amount);
+      }), 0)
+    )
+  },
+
+  // Calculate sum of negative amounts.
+  debits: function(){
+    var credits;
+    credits = this.state.records.filter(function(val) {
+      return val.amount < 0;
+    });
+
+    return (
+      credits.reduce((function(prev, curr) {
+        return prev + parseFloat(curr.amount);
+      }), 0)
+    )
+  },
+
+  balance: function(){
+    return ( this.debits() + this.credits() )
+  },
+
   render: function() {
+    // WTF?! When objects come to the "state" After getInitialState?
+
     // this -> Constructor.
     // props
     // refs
@@ -44,7 +78,14 @@ var Records = React.createClass({
       // when React executes a re-render, it will be performed in an optimal way
       <div className='records'>
         <h2 className='title'>Records</h2>
-          <RecordForm handleNewRecord={this.addRecord} />
+
+        <div className='row'>
+          <AmountBox type='success' amount={ this.credits() } text='Credit'/>
+          <AmountBox type='danger' amount={ this.debits() } text='Debit'/>
+          <AmountBox type='info' amount={ this.balance() } text='Balance'/>
+        </div>
+
+        <RecordForm handleNewRecord={ this.addRecord } />
         <hr/>
 
         <table className='table table-bordered'>
