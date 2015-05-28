@@ -4,7 +4,6 @@ var Records = React.createClass({
     // this - Constructor...
     // props:
     //   data -> array of elements which is inserterted.
-    //   records -> ?
     //   state -> ? ( null )
 
     return ({
@@ -13,7 +12,7 @@ var Records = React.createClass({
   },
 
   getDefaultProps: function() {
-    // If in "react_component" we does not insert any datas - so "this.prop.data" will get it form this method.
+    // If we does not insert any data in "react_component" so "this.prop.data" will get it form "getDefaultProps" method.
 
     // [
     //  {"id":1,"title":"Record 1","date":"2015-05-27","amount":500.0,"created_at":"2015-05-27T17:36:13.002Z","updated_at":"2015-05-27T17:36:13.002Z"},
@@ -26,18 +25,26 @@ var Records = React.createClass({
   },
 
   addRecord: function(record) {
-    records = this.state.records.slice()
-    records.push(record)
+    // records = this.state.records.slice()
+    // records.push(record)
+    var records;
+    records = React.addons.update(this.state.records, { $push: [record] })
+
     this.setState({ records: records})
   },
 
   deleteRecord: function(record){
-    records = this.state.records.slice();
-    index = records.indexOf(record);
-    records.splice(index, 1);
+    // records = this.state.records.slice();
+    // index = records.indexOf(record);
+    // records.splice(index, 1);
 
-    // difference between setState and replaceState is that the first one will only update one key of the state object,
-    // the second - will completely override the current state of the component with whatever new object we send.
+    var index, records;
+
+    index = this.state.records.indexOf(record);
+    records = React.addons.update(this.state.records, { $splice: [[index, 1]] })
+
+    // difference between setState and replaceState is that the first one will only update +one key+ of the +state object+,
+    // the second - will completely +override+ the current +state of the component+ with whatever new object we send.
     this.replaceState({ records: records });
   },
 
