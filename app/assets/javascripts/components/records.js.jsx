@@ -48,6 +48,17 @@ var Records = React.createClass({
     this.replaceState({ records: records });
   },
 
+  updateRecord: function(record){
+    var index;
+    this.state.records.some(function(_record, _index){
+      index = _index;
+      return _record.id == record.id;
+    });
+
+    r = React.addons.update(records, { $splice: [[index, 1, record]] })
+    this.setState({ records: r });
+  },
+
   // Calculate sum of positive amounts.
   credits: function(){
     var credits;
@@ -116,7 +127,7 @@ var Records = React.createClass({
             {
               records.map(function (record) {
                 return (
-                  <Record key={record.id} record={record} handleDeleteRecord={this.deleteRecord} />
+                  <Record key={record.id} record={record} handleDeleteRecord={this.deleteRecord} handleEditRecord={ this.updateRecord }/>
                 )
               }, this) // Dont FORGOT send THIS!
             }
