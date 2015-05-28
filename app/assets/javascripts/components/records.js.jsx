@@ -31,6 +31,16 @@ var Records = React.createClass({
     this.setState({ records: records})
   },
 
+  deleteRecord: function(record){
+    records = this.state.records.slice();
+    index = records.indexOf(record);
+    records.splice(index, 1);
+
+    // difference between setState and replaceState is that the first one will only update one key of the state object,
+    // the second - will completely override the current state of the component with whatever new object we send.
+    this.replaceState({ records: records });
+  },
+
   // Calculate sum of positive amounts.
   credits: function(){
     var credits;
@@ -64,8 +74,6 @@ var Records = React.createClass({
   },
 
   render: function() {
-    // WTF?! When objects come to the "state" After getInitialState?
-
     // this -> Constructor.
     // props
     // refs
@@ -91,18 +99,19 @@ var Records = React.createClass({
         <table className='table table-bordered'>
           <thead>
             <tr>
-              <th>DATE</th>
-              <th>TITLE</th>
-              <th>AMOUNT</th>
+              <th>Dates</th>
+              <th>Titles</th>
+              <th>Amounts</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {
               records.map(function (record) {
                 return (
-                  <Record key={record.id} record={record} />
+                  <Record key={record.id} record={record} handleDeleteRecord={this.deleteRecord} />
                 )
-              })
+              }, this) // Dont FORGOT send THIS!
             }
           </tbody>
         </table>
